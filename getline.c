@@ -101,7 +101,7 @@ ssize_t read_buffer(info_t *info, char *buffer, size_t *index)
 	if (*index)
 		return (0);
 
-	bytesRead = read(info->read_fd, buffer, READ_BUFFER_SIZE);
+	bytesRead = read(info->read_fd, buffer, 1024);
 	if (bytesRead >= 0)
 		*index = bytesRead;
 
@@ -118,11 +118,12 @@ ssize_t read_buffer(info_t *info, char *buffer, size_t *index)
  */
 int _getline(info_t *info, char **pointer, size_t *length)
 {
-	static char buffer[READ_BUFFER_SIZE];
+	static char buffer[1024];
 	static size_t bufferIndex, bufferLength;
 	size_t k;
 	ssize_t bytesRead = 0, size = 0;
 	char *currentPointer = NULL, *newPointer = NULL, *c;
+	int i;
 
 	currentPointer = *pointer;
 	if (currentPointer && length)
@@ -153,7 +154,7 @@ int _getline(info_t *info, char **pointer, size_t *length)
 	currentPointer = newPointer;
 
 	if (bufferLength)
-		*bufferLength = size;
+		bufferLength = size;
 	*pointer = currentPointer;
 	return (size);
 }
