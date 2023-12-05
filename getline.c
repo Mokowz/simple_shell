@@ -158,4 +158,4 @@ int _getline(info_t *info, char **pointer, size_t *length)
 
     if (!newPointer) /* MALLOC FAILURE! */
         return (currentPointer ? free(currentPointer),
-
+}
