@@ -64,7 +64,7 @@ typedef struct pseudoargs
 #define BUF_FLUSH -1
 
 #define INFO_INIT \
-{NULL, NULL, NULL, 0, 0, 0, 0, NULL, NULL, NULL, NULL, NULL, 0, 0, NULL}
+{NULL, NULL, NULL, 0, 0, 0, NULL, NULL, NULL, 0, 0, 0, NULL, 0}
 
 ssize_t buffer_input(info_t *info, char **buffer, size_t *length);
 ssize_t get_input_line(info_t *info);
