@@ -29,4 +29,7 @@ int is_delim(char c, char *delim);
 int _isalpha(int c);
 int _atoi(char *s);
 
+/* strtok.c file */
+char **_strtok(char *str, char *delim);
+
 #endif
