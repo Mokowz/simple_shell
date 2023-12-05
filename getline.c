@@ -10,42 +10,37 @@
  */
 ssize_t buffer_input(info_t *info, char **buffer, size_t *length)
 {
-    ssize_t bytesRead = 0;
-    size_t currentLength = 0;
-
-    if (!*length) /* if nothing left in the buffer, fill it */
-    {
-        free(*buffer);
-        *buffer = NULL;
-        signal(SIGINT, sigintHandler);
-
+	ssize_t bytesRead = 0;
+	size_t currentLength = 0;
+	
+	if (!*length) /* if nothing left in the buffer, fill it */
+	{
+		free(*buffer);
+		*buffer = NULL;
+		signal(SIGINT, sigintHandler);
 #if USE_GETLINE
-        bytesRead = getline(buffer, &currentLength, stdin);
+		bytesRead = getline(buffer, &currentLength, stdin);
 #else
-        bytesRead = _getline(info, buffer, &currentLength);
+		bytesRead = _getline(info, buffer, &currentLength);
 #endif
-
-        if (bytesRead > 0)
-        {
-            if ((*buffer)[bytesRead - 1] == '\n')
-            {
-                (*buffer)[bytesRead - 1] = '\0'; /* remove trailing newline */
-                bytesRead--;
-            }
-
-            info->linecount_flag = 1;
-            remove_comments(*buffer);
-            build_history_list(info, *buffer, info->histcount++);
-
-            /* if (_strchr(*buffer, ';')) is this a command chain? */
-            {
-                *length = bytesRead;
-                info->cmd_buffer = buffer;
-            }
-        }
-    }
-
-    return bytesRead;
+		if (bytesRead > 0)
+		{
+			if ((*buffer)[bytesRead - 1] == '\n')
+			{
+				(*buffer)[bytesRead - 1] = '\0'; /* remove trailing newline */
+				bytesRead--;
+			}
+			info->linecount_flag = 1;
+			remove_comments(*buffer);
+			build_history_list(info, *buffer, info->histcount++);
+			/* if (_strchr(*buffer, ';')) is this a command chain? */
+			{
+				*length = bytesRead;
+				info->cmd_buffer = buffer;
+			}
+		}
+	}
+	return (bytesRead);
 }
 
 /**
@@ -56,35 +51,31 @@ ssize_t buffer_input(info_t *info, char **buffer, size_t *length)
  */
 ssize_t get_input_line(info_t *info)
 {
-    static char *commandBuffer; /* the ';' command chain buffer */
-    static size_t bufferIndex, j, bufferLength;
-    ssize_t bytesRead = 0;
-    char **currentBuffer = &(info->argument), *currentPosition;
-
-    _putchar(BUF_FLUSH);
-    bytesRead = buffer_input(info, &commandBuffer, &bufferLength);
-
-    if (bytesRead == -1) /* EOF */
-        return -1;
-
-    if (bufferLength) /* we have commands left in the chain buffer */
-    {
-        j = bufferIndex; /* initialize new iterator to current buffer position */
-        currentPosition = commandBuffer + bufferIndex; /* get pointer for return */
-
-        check_chain(info, commandBuffer, &j, bufferIndex, bufferLength);
-
-        while (j < bufferLength) /* iterate to semicolon or end */
-        {
-            if (is_chain(info, commandBuffer, &j))
-                break;
-            j++;
-        }
-
-        bufferIndex = j + 1; /* increment past nulled ';'' */
-
-        if (bufferIndex >= bufferLength) /* reached end of buffer? */
-        {
+	static char *commandBuffer; /* the ';' command chain buffer */
+	static size_t bufferIndex, j, bufferLength;
+	ssize_t bytesRead = 0;
+	char **currentBuffer = &(info->argument), *currentPosition;
+	
+	_putchar(BUF_FLUSH);
+	bytesRead = buffer_input(info, &commandBuffer, &bufferLength);
+	if (bytesRead == -1) /* EOF */
+		return (-1);
+	if (bufferLength) /* we have commands left in the chain buffer */
+	{
+		j = bufferIndex; /* initialize new iterator to current buffer position */
+		currentPosition = commandBuffer + bufferIndex; /* get pointer for return */
+		check_chain(info, commandBuffer, &j, bufferIndex, bufferLength);
+		
+		while (j < bufferLength) /* iterate to semicolon or end */
+		{
+			if (is_chain(info, commandBuffer, &j))
+				break;
+			j++;
+		}
+		
+		bufferIndex = j + 1; /* increment past nulled ';'' */
+		if (bufferIndex >= bufferLength) /* reached end of buffer? */
+		{
             bufferIndex = bufferLength = 0; /* reset position and length */
             info->cmd_buffer_type = CMD_NORMAL;
         }
