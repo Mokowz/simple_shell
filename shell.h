@@ -13,6 +13,8 @@
 #include <errno.h>
 
 
+extern char **environ;
+
 /**
  * struct lists - singly linked list
  * @num: Number
@@ -114,5 +116,11 @@ char *_strncpy(char *dest, char *src, int n);
 char *_memset(char *str, char fill, unsigned int n);
 void ffree(char **str);
 void *_realloc(void *ptr, size_t old_size, size_t new_size);
+
+/* error file functs */
+int _putfd(char c, int fd);
+int _eputchar(char c);
+void _eputs(char *str);
+int _erratoi(char *str);
 
 #endif
