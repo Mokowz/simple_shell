@@ -96,4 +96,14 @@ int _strcmp(char *str1, char *str2);
 char *starts_with(const char *str, const char *small);
 char *_strcat(char *dest, char *src);
 
+/* str3.c file */
+char *_strchr(char *str, char c);
+char *_strncat(char *dest, char *src, int n);
+char *_strncpy(char *dest, char *src, int n);
+
+/* allocate.c file */
+char *_memset(char *str, char fill, unsigned int n);
+void ffree(char **str);
+void *_realloc(void *ptr, size_t old_size, size_t new_size);
+
 #endif
