@@ -77,7 +77,7 @@ ssize_t get_input_line(info_t *info)
 		if (bufferIndex >= bufferLength) /* reached end of buffer? */
 		{
 			bufferIndex = bufferLength = 0; /* reset position and length */
-			info->cmd_buffer_type = CMD_NORMAL;
+			info->cmd_buffer_type = 0;
 		}
 		*currentBuffer = currentPosition;
 		return (_strlen(currentPosition)); /* return length of current command */
@@ -101,7 +101,7 @@ ssize_t read_buffer(info_t *info, char *buffer, size_t *index)
 	if (*index)
 		return (0);
 
-	bytesRead = read(info->read_fd, buffer, 1024);
+	bytesRead = read(info->readfd, buffer, 1024);
 	if (bytesRead >= 0)
 		*index = bytesRead;
 
@@ -157,4 +157,15 @@ int _getline(info_t *info, char **pointer, size_t *length)
 		bufferLength = size;
 	*pointer = currentPointer;
 	return (size);
+}
+
+/**
+ * sigintHandler - block ctrl c
+ * @signum: signal number
+ */
+void sigintHandler(__attribute__((unused))int signum)
+{
+	_puts("\n");
+	_puts("$ ");
+	_putchar(-1);
 }
