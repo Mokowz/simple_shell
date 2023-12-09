@@ -123,7 +123,6 @@ int _getline(info_t *info, char **pointer, size_t *length)
 	size_t k;
 	ssize_t bytesRead = 0, size = 0;
 	char *currentPointer = NULL, *newPointer = NULL, *c;
-	int i;
 
 	currentPointer = *pointer;
 	if (currentPointer && length)
@@ -145,12 +144,12 @@ int _getline(info_t *info, char **pointer, size_t *length)
 		return (currentPointer ? free(currentPointer), -1 : -1);
 
 	if (size)
-		_strncat(newPointer, buffer + i, k - i);
+		_strncat(newPointer, buffer + bufferIndex, k - bufferIndex);
 	else
-		_strncpy(newPointer, buffer + i, k - i + 1);
+		_strncpy(newPointer, buffer + bufferIndex, k - bufferIndex + 1);
 
-	size += k - i;
-	i = k;
+	size += k - bufferIndex;
+	bufferIndex = k;
 	currentPointer = newPointer;
 
 	if (bufferLength)

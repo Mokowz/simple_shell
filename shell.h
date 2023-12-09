@@ -75,6 +75,9 @@ ssize_t get_input_line(info_t *info);
 ssize_t read_buffer(info_t *info, char *buffer, size_t *index);
 int _getline(info_t *info, char **pointer, size_t *length);
 void sigintHandler(int signum);
+void check_chain(info_t *, char *, size_t*, size_t, size_t);
+int build_history_list(info_t *info, char *buf, int linecount);
+int is_chain(info_t *, char *, size_t *);
 
 /* env.c functs */
 int _myenv(info_t *info);
@@ -82,11 +85,15 @@ char *_getenv(info_t *info, const char *name);
 int _mysetenv(info_t *info);
 int _myunsetenv(info_t *info);
 int populate_env_list(info_t *info);
+size_t print_list_str(const list_t *);
+list_t *add_node_end(list_t **, const char *, int);
 
 /* builtin exit functs */
 int _myexit(info_t *info);
 int _mycd(info_t *info);
 int _myhelp(info_t *info);
+int _setenv(info_t *, char *, char *);
+int _unsetenv(info_t *, char *);
 
 /* atoi functs */
 int interactive(info_t *info);
@@ -122,5 +129,7 @@ int _putfd(char c, int fd);
 int _eputchar(char c);
 void _eputs(char *str);
 int _erratoi(char *str);
+void print_error(info_t *, char *);
+void remove_comments(char *);
 
 #endif
