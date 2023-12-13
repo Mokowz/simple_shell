@@ -1,14 +1,14 @@
 #include "shell.h"
 
 /**
- * buffer_input - buffers chained commands
+ * buffer_inp - buffers chained commands
  * @info: parameter struct
  * @buffer: address of buffer
  * @length: address of length variable
  *
  * Return: bytes read
  */
-ssize_t buffer_input(info_t *info, char **buffer, size_t *length)
+ssize_t buffer_inp(info_t *info, char **buffer, size_t *length)
 {
 	ssize_t bytesRead = 0;
 	size_t currentLength = 0;
@@ -32,7 +32,7 @@ ssize_t buffer_input(info_t *info, char **buffer, size_t *length)
 			}
 			info->linecount_flag = 1;
 			remove_comments(*buffer);
-			build_history_list(info, *buffer, info->histcount++);
+			build_hist_list(info, *buffer, info->histcount++);
 			/* if (_strchr(*buffer, ';')) is this a command chain? */
 			{
 				*length = bytesRead;
@@ -44,12 +44,12 @@ ssize_t buffer_input(info_t *info, char **buffer, size_t *length)
 }
 
 /**
- * get_input_line - gets a line minus the newline
+ * get_input - gets a line minus the newline
  * @info: parameter struct
  *
  * Return: bytes read
  */
-ssize_t get_input_line(info_t *info)
+ssize_t get_input(info_t *info)
 {
 	static char *commandBuffer; /* the ';' command chain buffer */
 	static size_t bufferIndex, j, bufferLength;
@@ -57,7 +57,7 @@ ssize_t get_input_line(info_t *info)
 	char **currentBuffer = &(info->argument), *currentPosition;
 
 	_putchar(BUF_FLUSH);
-	bytesRead = buffer_input(info, &commandBuffer, &bufferLength);
+	bytesRead = buffer_inp(info, &commandBuffer, &bufferLength);
 	if (bytesRead == -1) /* EOF */
 		return (-1);
 	if (bufferLength) /* we have commands left in the chain buffer */
@@ -87,14 +87,14 @@ ssize_t get_input_line(info_t *info)
 }
 
 /**
- * read_buffer - reads a buffer
+ * read_buf - reads a buffer
  * @info: parameter struct
  * @buffer: buffer
  * @index: size
  *
  * Return: bytesRead
  */
-ssize_t read_buffer(info_t *info, char *buffer, size_t *index)
+ssize_t read_buf(info_t *info, char *buffer, size_t *index)
 {
 	ssize_t bytesRead = 0;
 
@@ -133,7 +133,7 @@ int _getline(info_t *info, char **pointer, size_t *length)
 		bufferIndex = bufferLength = 0;
 	}
 
-	bytesRead = read_buffer(info, buffer, &bufferLength);
+	bytesRead = read_buf(info, buffer, &bufferLength);
 	if (bytesRead == -1 || (bytesRead == 0 && bufferLength == 0))
 		return (-1);
 	c = _strchr(buffer + bufferIndex, '\n');

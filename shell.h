@@ -45,6 +45,7 @@ typedef struct lists
  * @cmd_buffer_type: for || && ;
  * @readfd: fd to read line from
  * @histcount: history line
+ * @environ_changed: Emvironment changed
  */
 typedef struct pseudoargs
 {
@@ -63,35 +64,37 @@ typedef struct pseudoargs
 	char **cmd_buffer;
 	int cmd_buffer_type;
 	int histcount;
+	int environ_changed;
+	list_t *hist;
 } info_t;
 
 #define BUF_FLUSH -1
 
 #define INFO_INIT \
-{NULL, NULL, NULL, 0, 0, 0, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0}
+{NULL, NULL, NULL, 0, 0, 0, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, NULL}
 /* get_line.c funts */
-ssize_t buffer_input(info_t *info, char **buffer, size_t *length);
-ssize_t get_input_line(info_t *info);
-ssize_t read_buffer(info_t *info, char *buffer, size_t *index);
+ssize_t buffer_inp(info_t *info, char **buffer, size_t *length);
+ssize_t get_input(info_t *info);
+ssize_t read_buf(info_t *info, char *buffer, size_t *index);
 int _getline(info_t *info, char **pointer, size_t *length);
 void sigintHandler(int signum);
 void check_chain(info_t *, char *, size_t*, size_t, size_t);
-int build_history_list(info_t *info, char *buf, int linecount);
+int build_hist_list(info_t *info, char *buf, int linecount);
 int is_chain(info_t *, char *, size_t *);
 
 /* env.c functs */
-int _myenv(info_t *info);
+int _monenv(info_t *info);
 char *_getenv(info_t *info, const char *name);
-int _mysetenv(info_t *info);
-int _myunsetenv(info_t *info);
-int populate_env_list(info_t *info);
+int _monsetenv(info_t *info);
+int _monunsetenv(info_t *info);
+int pop_env_list(info_t *info);
 size_t print_list_str(const list_t *);
 list_t *add_node_end(list_t **, const char *, int);
 
 /* builtin exit functs */
-int _myexit(info_t *info);
-int _mycd(info_t *info);
-int _myhelp(info_t *info);
+int _monexit(info_t *info);
+int _moncd(info_t *info);
+int _monhelp(info_t *info);
 int _setenv(info_t *, char *, char *);
 int _unsetenv(info_t *, char *);
 
@@ -129,7 +132,14 @@ int _putfd(char c, int fd);
 int _eputchar(char c);
 void _eputs(char *str);
 int _erratoi(char *str);
-void print_error(info_t *, char *);
-void remove_comments(char *);
+void print_error(info_t *, char *str);
+int print_d(int inp, int fd);
+void remove_comments(char *buffer);
 
+/* more c */
+void check_chain(info_t *info, char *buffer, size_t *posi, size_t i, size_t len);
+int is_chain(info_t *info, char *buffer, size_t *posi);
+
+int _setenv(info_t *info, char *var, char *val);
+int _unsetenv(info_t *info, char *var);
 #endif
