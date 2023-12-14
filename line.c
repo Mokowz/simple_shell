@@ -30,15 +30,15 @@ char **split_string(char *str, const char *delim)
 
 	token = strtok(copy, delim);
 	array = malloc((sizeof(char *) * 2));
-	array[0] = strdup(token);
+	array[0] = _strdup(token);
 
 	i = 1;
 	j = 3;
 	while (token)
 	{
 		token = strtok(NULL, delim);
-		array = realloc(array, (sizeof(char *) * (j - 1)), (sizeof(char *) * j));
-		array[i] = strdup(token);
+		array = _myrealloc(array, (sizeof(char *) * (j - 1)), (sizeof(char *) * j));
+		array[i] = _strdup(token);
 		i++;
 		j++;
 	}
@@ -80,7 +80,7 @@ void _execute(char **args)
  * @new_size: new size for our pointer
  * Return: new resized pointer
  */
-void *realloc(void *ptr, unsigned int old_size, unsigned int new_size)
+void *_myrealloc(void *ptr, unsigned int old_size, unsigned int new_size)
 {
 	char *new;
 	char *old;

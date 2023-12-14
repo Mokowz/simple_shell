@@ -12,15 +12,15 @@
 #include <sys/stat.h>
 #include <signal.h>
 
-int _putchar(char c);
-int puts(char *str);
-int _mystrlen(char *s);
-int *strdup(char *str);
-char *concat_all(char *name, char *sep, char *value);
+int _putchar(char );
+void _puts(char *);
+int _mystrlen(char *);
+char *_strdup(char *);
+char *_concat(char *, char *, char *);
 
 char **split_string(char *str, const char *delim);
 void _execute(char **args);
-void *realloc(void *ptr, unsigned int old_size, unsigned int new_size);
+void *_myrealloc(void *ptr, unsigned int old_size, unsigned int new_size);
 
 extern char **environ;
 
@@ -36,6 +36,18 @@ typedef struct _mybuild
 	void (*func)(char **);
 } _mybuild;
 
+/**
+ * struct list_pathname - linked list
+ * @data: Path
+ * @path: pointer to next
+ */
+typedef struct list_pathname
+{
+        char *data;
+        struct list_pathname *path;
+} list_pathname;
+
+
 void custom_exit(char **args);
 int _atoi(char *str);
 void _mysetenv(char **args);
@@ -45,5 +57,18 @@ void _env(char **args);
 char *_mygetenv(const char *name);
 
 void freeargs(char **args);
+
+/* pathname */
+list_pathname *linkpathname(char *);
+char *getenviron(const char *);
+list_pathname *add_node_to_end(list_pathname **, char *);
+void flist(list_pathname *);
+char *which_path(char *, list_pathname *);
+
+/* more */
+void isterm(void);
+void end_file(int, char *);
+void sigHandler(int);
+
 
 #endif

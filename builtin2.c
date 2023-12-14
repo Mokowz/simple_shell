@@ -31,5 +31,5 @@ void(*check_builtin(char **args))(char **args)
 				return (BUILTINS[i].func);
 		}
 	}
-	return (NULL);
+	return (0);
 }

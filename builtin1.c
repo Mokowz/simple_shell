@@ -59,8 +59,8 @@ void _env(char **args __attribute__ ((unused)))
 
 	for (i = 0; environ[i]; i++)
 	{
-		puts(environ[i]);
-		puts("\n");
+		_puts(environ[i]);
+		_puts("\n");
 	}
 }
 /**
@@ -105,7 +105,7 @@ void _mysetenv(char **args)
 	}
 	if (!environ[i])
 	{
-		environ[i] = concat_all(args[1], "=", args[2]);
+		environ[i] = _concat(args[1], "=", args[2]);
 		environ[i + 1] = '\0';
 	}
 }
