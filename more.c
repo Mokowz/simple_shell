@@ -8,7 +8,7 @@ void sigHandler(int num)
 {
 	if (num == SIGINT)
 	{
-		_puts("S ");
+		_puts("\n#cisfun$ ");
 	}
 }
 
@@ -38,5 +38,5 @@ void end_file(int len, char *buffer)
 void isterm(void)
 {
 	if (isatty(STDIN_FILENO))
-		_puts("$ ");
+		_puts("#cisfun$ ");
 }
