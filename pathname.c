@@ -25,7 +25,7 @@ char *_mygetenv(const char *str)
 			}
 			if (str[m] == '\0')
 			{
-				name = (environ[i] + m +1);
+				name = (environ[i] + m + 1);
 				return (name);
 			}
 		}

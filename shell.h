@@ -12,7 +12,7 @@
 #include <sys/stat.h>
 #include <signal.h>
 
-int _putchar(char );
+int _putchar(char);
 void _puts(char *);
 int _mystrlen(char *);
 char *_strdup(char *);
@@ -43,8 +43,8 @@ typedef struct _mybuild
  */
 typedef struct list_pathname
 {
-        char *data;
-        struct list_pathname *path;
+	char *data;
+	struct list_pathname *path;
 } list_pathname;
 
 

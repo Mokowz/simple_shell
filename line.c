@@ -73,7 +73,7 @@ void _execute(char **args)
 	wait(&stat);
 }
 /**
- * realloc - Reallocates memory block
+ * _myrealloc - Reallocates memory block
  *
  * @ptr: previous pointer
  * @old_size: old sixe of the previous pointer

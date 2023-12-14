@@ -18,18 +18,14 @@ int main(void)
 		len = getline(&buffer, &total, stdin);
 		end_file(len, buffer);
 		argv = split_string(buffer, " \n");
-
 		if (!argv[0] || !argv)
-		{
 			_execute(argv);
-		}
 		else
 		{
 			val = _mygetenv("PATH");
 			head = linkpathname(val);
 			pathn = which_path(argv[0], head);
 			f = check_builtin(argv);
-
 			if (f)
 			{
 				free(buffer);

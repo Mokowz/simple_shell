@@ -12,11 +12,11 @@ char *which_path(char *file, list_pathname *head)
 	struct stat sti;
 
 	list_pathname *temp = head;
-	
+
 	while (temp)
 	{
 		str = _concat(temp->data, "/", file);
-		if(stat(str, &sti) == 0)
+		if (stat(str, &sti) == 0)
 			return (str);
 		free(str);
 		temp = temp->path;
