@@ -18,9 +18,9 @@ int _mystrlen(char *);
 char *_strdup(char *);
 char *_concat(char *, char *, char *);
 
-char **split_string(char *str, const char *delim);
-void _execute(char **args);
-void *_myrealloc(void *ptr, unsigned int old_size, unsigned int new_size);
+char **split_string(char *, const char *);
+void _execute(char **);
+void *_myrealloc(void *, unsigned int, unsigned int);
 
 extern char **environ;
 
@@ -48,15 +48,15 @@ typedef struct list_pathname
 } list_pathname;
 
 
-void custom_exit(char **args);
-int _atoi(char *str);
-void _mysetenv(char **args);
-void _myunsetenv(char **args);
-void(*check_builtin(char **args))(char **args);
-void _env(char **args);
-char *_mygetenv(const char *name);
+void custom_exit(char **);
+int _atoi(char *);
+void _mysetenv(char **);
+void _myunsetenv(char **);
+void(*check_builtin(char **))(char **);
+void _env(char **);
+char *_mygetenv(const char *);
 
-void freeargs(char **args);
+void freeargs(char **);
 
 /* pathname */
 list_pathname *linkpathname(char *);
